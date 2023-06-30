@@ -44,7 +44,7 @@ const User = sequelize.define('User', {
 
 // Routes
 const authRoutes = require('./routes/authRoutes');
-app.use('/auth', authRoutes);
+authRoutes(app);
 
 // Sync models with the database and start the server
 sequelize.sync()
