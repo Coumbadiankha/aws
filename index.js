@@ -1,24 +1,61 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+
+const app = express();
+const port = 3000;
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Database connection
 const { Sequelize } = require('sequelize');
-const UserModel = require('./models/User');
-require('dotenv').config();
-
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql'
-  }
-);
-
-sequelize.authenticate().then(() => {
-  console.log('Connection has been established successfully.');
-}).catch((error) => {
-  console.error('Unable to connect to the database: ', error);
+const sequelize = new Sequelize('tpaws', 'root', 'amilgaoul1C+', {
+  host: 'tpaws.cp3knxgiemoe.eu-west-3.rds.amazonaws.com',
+  dialect: 'mysql',
 });
 
-const User = UserModel(sequelize);
+sequelize.authenticate()
+  .then(() => {
+    console.log('Database connected!');
+  })
+  .catch((error) => {
+    console.error('Unable to connect to the database:', error);
+  });
+
+// Define User model
+const User = sequelize.define('User', {
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    unique: true
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
+});
+
+// Routes
+const authRoutes = require('./routes/authRoutes');
+app.use('/auth', authRoutes);
+
+// Sync models with the database and start the server
+sequelize.sync()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Unable to sync models:', error);
+  });
 
 module.exports = {
   sequelize,
