@@ -2,11 +2,11 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
 const db = new Sequelize(
-  process.env.RDS_DATABASE, 
-  process.env.RDS_USERNAME, 
-  process.env.RDS_PASSWORD, 
+  process.env.DB_DATABASE, 
+  process.env.DB_USERNAME, 
+  process.env.DB_PASSWORD, 
   { 
-    host: process.env.RDS_HOSTNAME,
+    host: process.env.DB_HOSTNAME,
     dialect: 'mysql' 
   }
 );
