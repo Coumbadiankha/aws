@@ -2,10 +2,6 @@ Le grand jour est arrivé, c'est le lancement du projet ! Pour commencer cette a
 
 Mettez-vous en mouvement vers le chemin /src en utilisant la commande suivante :
 
-1. Préparez-vous à accueillir les paquets nécessaires en exécutant cette commande magique :
-
-npm i
-
 2. Pour vous connecter à la base de données AWS RDS et garantir une communication fluide, faites une copie du fichier .env.example et renommez-la en ".env". Remplissez les informations de connexion à votre base de données (hôte, nom d'utilisateur, mot de passe et base de données) avec soin :
 
 RDS_HOSTNAME=
